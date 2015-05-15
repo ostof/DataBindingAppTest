@@ -24,33 +24,25 @@ namespace DataBindingAppTest
     /// </summary>
     public sealed partial class MainPage : Page
     {
-        private readonly ObservableCollection<PersonModel> _dataViewModel;
+        private readonly ObservableCollection<PersonModel> personModelCollection;
 
-        public ObservableCollection<PersonModel> DataViewModel {
-            get { return this._dataViewModel; }
+        public ObservableCollection<PersonModel> PersonModelCollection
+        {
+            get { return this.personModelCollection; }
         }
 
         public MainPage()
         {
+            personModelCollection = new ObservableCollection<PersonModel>();
+
+            personModelCollection.Add(new PersonModel("Max Mustermann", 30));
+            personModelCollection.Add(new PersonModel("Yann", 31));
+            personModelCollection.Add(new PersonModel("Loreen", 1));
+            
             this.InitializeComponent();
 
-            _dataViewModel = new ObservableCollection<PersonModel>()
-            {
-                new PersonModel("Max Mustermann", 30),
-                new PersonModel("Yann", 30),
-                new PersonModel("Loreen", 1)
-            };
-
-            //
-            
-
-            Debug.WriteLine("DataViewModel: " + DataViewModel);
-
-            Debug.WriteLine("Count: " + "{0}", DataViewModel.Count());
-
-            //UsernameTextBlock.DataContext = person;
-            //MainGridLayout.DataContext = person2;
-
+            Debug.WriteLine("DataViewModel: " + PersonModelCollection);
+            Debug.WriteLine("Count: " + "{0}", PersonModelCollection.Count());
         }
     }
 }

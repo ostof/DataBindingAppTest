@@ -5,18 +5,13 @@
     xmlns:local="using:DataBindingAppTest"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    DataContext="{Binding DataViewModel, RelativeSource={RelativeSource Self}}"
+    DataContext="{Binding PersonModelCollection, RelativeSource={RelativeSource Self}}"
     mc:Ignorable="d">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" x:Name="MainGridLayout">
         <StackPanel Margin="20 0">
             <TextBlock Text="Data Binding Test" FontSize="48" Margin="0 30 0 50" FontFamily="BordeauxLight"/>
             <Grid>
-                <!--<Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>-->
-
                 <Grid.RowDefinitions>
                     <RowDefinition Height="auto" />
                     <RowDefinition Height="auto" />
@@ -27,17 +22,10 @@
                     <TextBlock x:Name="AgeTextBlock" FontSize="18" Foreground="#999999" Text="33 ans" />
                 </StackPanel>
             </Grid>
-
-            <!--<StackPanel Grid.Row="0" Margin="0 30 0 0" DataContext="{Binding}">
-                <TextBlock x:Name="UsernameTextBlock1" Text="{Binding Path=Name}" FontSize="32"/>
-                <TextBlock x:Name="AgeTextBlock1" FontSize="18" Foreground="#999999" Text="{Binding Age}" />
+            <StackPanel DataContext="{Binding Path=[5]}">
+                <TextBlock Text="{Binding Name}" FontSize="16"/>
+                <TextBlock Text="{Binding Age}" FontSize="16"/>
             </StackPanel>
-
-            <StackPanel Grid.Row="0" Margin="0 30 0 0" x:Name="PersonUserName" DataContext="{Binding}">
-                <TextBlock x:Name="UsernameTextBlock2" Text="{Binding Name}" FontSize="32"/>
-                <TextBlock x:Name="AgeTextBlock2" FontSize="18" Foreground="#999999" Text="{Binding Age}" />
-            </StackPanel>-->
-
             <ListBox ItemsSource="{Binding}">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
@@ -49,9 +37,5 @@
                 </ListBox.ItemTemplate>
             </ListBox>
         </StackPanel>
-        
-        
-        
-        
     </Grid>
 </Page>
