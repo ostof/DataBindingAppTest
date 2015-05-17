@@ -1,0 +1,41 @@
+﻿{
+	"coord": {
+		"lon": 8.45,
+		"lat": 50.02
+	},
+	"sys": {
+		"message": 0.0149,
+		"country": "Germany",
+		"sunrise": 1431833814,
+		"sunset": 1431889696
+	},
+	"weather": [
+		{
+			"id": 800,
+			"main": "Clear",
+			"description": "Sky is Clear",
+			"icon": "01d"
+		}
+	],
+	"base": "stations",
+	"main": {
+		"temp": 289.616,
+		"temp_min": 289.616,
+		"temp_max": 289.616,
+		"pressure": 1015.82,
+		"sea_level": 1036.08,
+		"grnd_level": 1015.82,
+		"humidity": 79
+	},
+	"wind": {
+		"speed": 2.06,
+		"deg": 263.001
+	},
+	"clouds": {
+		"all": 0
+	},
+	"dt": 1431872744,
+	"id": 2849913,
+	"name": "Raunheim",
+	"cod": 200
+}

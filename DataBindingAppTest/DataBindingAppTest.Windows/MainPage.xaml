@@ -22,20 +22,53 @@
                     <TextBlock x:Name="AgeTextBlock" FontSize="18" Foreground="#999999" Text="33 ans" />
                 </StackPanel>
             </Grid>
-            <StackPanel DataContext="{Binding Path=[5]}">
-                <TextBlock Text="{Binding Name}" FontSize="16"/>
-                <TextBlock Text="{Binding Age}" FontSize="16"/>
+            <StackPanel DataContext="{Binding Path=[2]}" Margin="0 20 0 20">
+                <TextBlock FontSize="32"
+                           Margin="0 0 0 10"
+                           Text="One element read from the ObservableCollection"/>
+                <TextBlock Text="{Binding Name}" 
+                           FontSize="16"/>
+                <TextBlock Text="{Binding Age}" 
+                           FontSize="16"/>
             </StackPanel>
-            <ListBox ItemsSource="{Binding}">
-                <ListBox.ItemTemplate>
-                    <DataTemplate>
-                        <StackPanel>
-                            <TextBlock Text="{Binding Name}" />
-                            <TextBlock Text="{Binding Age}" />
-                        </StackPanel>
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
-            </ListBox>
+            <StackPanel>
+                <TextBlock FontSize="32"
+                           Margin="0 0 0 10"
+                           Text="All elements read from the ObservableCollection"/>
+                <ListBox ItemsSource="{Binding}">                
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel>
+                                <TextBlock Text="{Binding Name}" />
+                                <TextBlock Text="{Binding Age}" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </StackPanel>
+            <StackPanel Margin="0 20 0 0">
+                <TextBlock x:Name="jsonTitleTextBlock"
+                           FontSize="24"
+                           Text="Json Data"/>
+                <StackPanel Orientation="Horizontal" Margin="0 0 0 10">
+                    <TextBox x:Name="cityTextBox"
+                             Margin="0 0 20 0"
+                             Width="150"
+                             FontSize="14"
+                             PlaceholderText="Enter City Name"
+                             Text="aachen"/>
+                    <Button x:Name="getWeatherButton"
+                    	Content="Get Json Weather Data"
+                    	Click="getWeatherButton_Click"/>
+                    <Button x:Name="resetButton"
+                            Content="Reset"
+                            Click="resetButton_Click"/>
+                </StackPanel>
+                <TextBox x:Name="jsonResultTextBox"
+                	FontSize="14"
+                         MinHeight="150"
+                	TextWrapping="Wrap"/>
+            </StackPanel>
         </StackPanel>
     </Grid>
 </Page>
