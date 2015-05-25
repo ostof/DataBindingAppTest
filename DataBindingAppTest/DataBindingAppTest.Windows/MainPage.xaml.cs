@@ -18,6 +18,7 @@ using System.Net;
 using Windows.Web.Http;
 using System.Threading.Tasks;
 using System.Text;
+using System.Globalization;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -55,7 +56,7 @@ namespace DataBindingAppTest
 
             //Task<string> t = DownloadPageAsync();
 
-            Task<string> t2 = GetJsonWeatherData(jsonResultTextBox, jsonResultTextBox.Text);
+            //Task<string> t2 = GetJsonWeatherData(jsonResultTextBox, cityTextBox.Text);
 
             Debug.WriteLine("Downloading page...");
         }
@@ -63,18 +64,20 @@ namespace DataBindingAppTest
         #region Handle Controller Events
         private void getWeatherButton_Click(object sender, RoutedEventArgs e)
         {
-            Task<string> t = GetJsonWeatherData(jsonResultTextBox, jsonResultTextBox.Text);
+            Task<string> t = GetJsonWeatherData(jsonResultTextBox, cityTextBox.Text);
+            cityTextBlock.Text = "Current weather in " + Capitalize(cityTextBox.Text);
             //t.Start();
         }
 
         private void resetButton_Click(object sender, RoutedEventArgs e)
         {
             jsonResultTextBox.Text = "";
+            cityMessageTextBlock.Text = "";
         }
 
         #endregion
 
-        #region Ásync Method GetWeatherData
+        #region Async Method GetWeatherData
 
         public async Task<string> GetJsonWeatherData(TextBox c, string city)
         {
@@ -83,29 +86,29 @@ namespace DataBindingAppTest
             // Form a valid uri with the entered city name
             StringBuilder sb = new StringBuilder("http://api.openweathermap.org/data/2.5/weather?q=");
 
-            if (city == "")
+            if (city == string.Empty)
             {
-                Debug.WriteLine("URI-----------------: \n No city entered");
+                c.Text = "";
+                cityMessageTextBlock.Text = "Enter a city";
                 return "";
             }
             else
             {
-                sb.Append(city);
+                Debug.WriteLine("City: {0}", city);
+
+                sb.Append(city);               
                 sb.Append(",de");
+                
                 string uriString = sb.ToString();
-                Debug.WriteLine("URI-----------------: \n {0}", sb);
+                Debug.WriteLine("URI: {0}", uriString);
 
                 Uri uri = new Uri(uriString);
 
                 var response = await client.GetStringAsync(uri);
 
-                Debug.WriteLine("Json cotent: \n {0}", response.ToString());
-
                 c.Text = response.ToString();
 
                 return response.ToString();
-
-                //var obj = JObject.Parse(response);
             }
 
         }
@@ -175,8 +178,27 @@ namespace DataBindingAppTest
 
         }
 
+
         #endregion
 
-        
+        private void cityTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            //Debug.WriteLine("Test changed");
+        }
+
+        #region Capitalize
+        /// <summary>
+        /// Capitalize the first letter of a given word
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        private static string Capitalize(string input)
+        {
+            string firstLetter = input[0].ToString().ToUpper();
+            input = input.Remove(0, 1);
+            input = input.Insert(0, firstLetter);
+            return input;
+        }
+        #endregion
     }
 }

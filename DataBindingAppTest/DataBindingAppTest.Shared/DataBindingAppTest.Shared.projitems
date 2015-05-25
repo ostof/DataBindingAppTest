@@ -19,6 +19,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)PersonModel.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Cloud-Sun.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Sun.png" />
     <Content Include="$(MSBuildThisFileDirectory)WeatherSampleData.json" />
   </ItemGroup>
 </Project>

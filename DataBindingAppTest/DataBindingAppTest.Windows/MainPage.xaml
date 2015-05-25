@@ -5,7 +5,6 @@
     xmlns:local="using:DataBindingAppTest"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    DataContext="{Binding PersonModelCollection, RelativeSource={RelativeSource Self}}"
     mc:Ignorable="d">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" x:Name="MainGridLayout">
@@ -56,18 +55,37 @@
                              Width="150"
                              FontSize="14"
                              PlaceholderText="Enter City Name"
-                             Text="aachen"/>
+                             TextChanged="cityTextBox_TextChanged"/>
                     <Button x:Name="getWeatherButton"
                     	Content="Get Json Weather Data"
                     	Click="getWeatherButton_Click"/>
                     <Button x:Name="resetButton"
                             Content="Reset"
                             Click="resetButton_Click"/>
+                    <TextBlock x:Name="cityMessageTextBlock"
+                               Margin="20 0 0 0"
+                               FontSize="24"
+                               Foreground="Red"/>
                 </StackPanel>
                 <TextBox x:Name="jsonResultTextBox"
                 	FontSize="14"
                          MinHeight="150"
                 	TextWrapping="Wrap"/>
+            </StackPanel>
+            <StackPanel Margin="0 20 0 0">
+                <TextBlock x:Name="cityTextBlock"
+                           FontSize="36"
+                           Margin="0 0 0 10"
+                           Text="{Binding}"/>
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="/Assets/Sun.png"
+                           Width="36"
+                           Height="36"
+                           Margin="0 0 10 0"/>
+                    <TextBlock x:Name="currentTemperatureTextBlock"
+                               FontSize="36"
+                               Text="30°C"/>
+                </StackPanel>
             </StackPanel>
         </StackPanel>
     </Grid>
