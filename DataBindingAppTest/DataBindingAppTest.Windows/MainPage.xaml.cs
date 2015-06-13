@@ -19,6 +19,7 @@ using Windows.Web.Http;
 using System.Threading.Tasks;
 using System.Text;
 using System.Globalization;
+using Windows.Data.Json;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -59,14 +60,24 @@ namespace DataBindingAppTest
             //Task<string> t2 = GetJsonWeatherData(jsonResultTextBox, cityTextBox.Text);
 
             Debug.WriteLine("Downloading page...");
+            
         }
 
         #region Handle Controller Events
         private void getWeatherButton_Click(object sender, RoutedEventArgs e)
         {
-            Task<string> t = GetJsonWeatherData(jsonResultTextBox, cityTextBox.Text);
-            cityTextBlock.Text = "Current weather in " + Capitalize(cityTextBox.Text);
-            //t.Start();
+            //TODO: mettre ceci dans un try catch event et si le task reussi, afficher un message à l'utilisateur
+            try
+            {
+                Task<string> t = GetJsonWeatherData(jsonResultTextBox, cityTextBox.Text);
+                string s = t.ToString();
+            }
+            catch (Exception ex)
+            {
+
+                throw ex; 
+            }
+           
         }
 
         private void resetButton_Click(object sender, RoutedEventArgs e)
@@ -104,11 +115,28 @@ namespace DataBindingAppTest
 
                 Uri uri = new Uri(uriString);
 
-                var response = await client.GetStringAsync(uri);
+                string response = await client.GetStringAsync(uri);
+
+                // Parsing weather data from Json
+                try
+                {                   
+                    JsonObject jsonObject = JsonObject.Parse(response);
+                    //Debug.WriteLine("JsonObject: -----------\n {0}", jsonObject);
+
+                    //string City = jsonObject.GetNamedString("name");
+                    //Debug.WriteLine("City from json:.................... \n {0}", City);
+                }
+                catch (Exception ex)
+                {
+
+                    throw ex;
+                }
+
 
                 c.Text = response.ToString();
+                //Debug.WriteLine("tostring: -----------\n {0}", response.ToString());
 
-                return response.ToString();
+                return response;
             }
 
         }
@@ -194,11 +222,62 @@ namespace DataBindingAppTest
         /// <returns></returns>
         private static string Capitalize(string input)
         {
-            string firstLetter = input[0].ToString().ToUpper();
-            input = input.Remove(0, 1);
-            input = input.Insert(0, firstLetter);
+            try
+            {
+                string firstLetter = input[0].ToString().ToUpper();
+                input = input.Remove(0, 1);
+                input = input.Insert(0, firstLetter);
+                return input;
+            }
+            catch (Exception e)
+            {
+
+                Debug.WriteLine("Capitalize Exception: {0}", e);
+            }
+
             return input;
+            
         }
         #endregion
+
+        private void parseButton_Click(object sender, RoutedEventArgs e)
+        {
+            //cityTextBlock.Text = "Current weather in " + Capitalize(cityTextBox.Text);
+            string nameKey = "name";
+            string mainKey = "main";
+            string tempKey = "temp";
+
+            string jsonData = jsonResultTextBox.Text;
+            try
+            {
+                JsonObject jo = JsonObject.Parse(jsonData);
+                string city = jo.GetNamedString(nameKey, "");
+                JsonObject main = jo.GetNamedObject(mainKey, null);
+
+                //TODO Ajouter la fonction des icones
+
+                if (main!=null)
+                {
+                    double currentTemperatur = main.GetNamedNumber(tempKey, 0);
+                    cityTextBlock.Text = "Current weather in " + city;
+
+                    double currentTempCelcius = currentTemperatur - 272;
+
+                    currentTemperatureTextBlock.Text = Convert.ToInt32(currentTempCelcius).ToString();
+                    unitTextBlock.Text = "°C";
+
+                    Debug.WriteLine("Current weather: {0}K", currentTemperatur);
+                    Debug.WriteLine("Current weather in celcius: {0}°C", currentTemperatur-272.15);
+                }
+                
+                //Debug.WriteLine("")
+            }
+            catch (Exception ex) 
+            {
+
+                throw ex;
+            }
+
+        }
     }
 }

@@ -73,6 +73,10 @@
                 	TextWrapping="Wrap"/>
             </StackPanel>
             <StackPanel Margin="0 20 0 0">
+                <Button x:Name="parseButton"
+                        Margin="0 0 0 10"
+                        Content="Parse weather data"
+                        Click="parseButton_Click"/>
                 <TextBlock x:Name="cityTextBlock"
                            FontSize="36"
                            Margin="0 0 0 10"
@@ -84,7 +88,10 @@
                            Margin="0 0 10 0"/>
                     <TextBlock x:Name="currentTemperatureTextBlock"
                                FontSize="36"
-                               Text="30°C"/>
+                               Text=""/>
+                    <TextBlock x:Name="unitTextBlock"
+                               FontSize="20"
+                               Text=""/>
                 </StackPanel>
             </StackPanel>
         </StackPanel>
