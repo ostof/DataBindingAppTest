@@ -83,11 +83,6 @@
                            Text="{Binding}"/>
                 <StackPanel x:Name="currentWeatherStackPanel"
                             Orientation="Horizontal">
-                    <!--<Image x:Name="weatherIconImage"
-                           Source="{Binding}"
-                           Width="36"
-                           Height="36"
-                           Margin="0 0 10 0"/>-->
                     <TextBlock x:Name="currentTemperatureTextBlock"
                                FontSize="36"
                                Text=""/>

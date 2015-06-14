@@ -24,8 +24,6 @@ using Windows.UI.Xaml.Media.Imaging;
 using Windows.Storage;
 using Windows.Storage.Streams;
 
-// The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
-
 namespace DataBindingAppTest
 {
     /// <summary>
@@ -33,6 +31,7 @@ namespace DataBindingAppTest
     /// </summary>
     public sealed partial class MainPage : Page
     {
+        #region PersonModel
         private readonly ObservableCollection<PersonModel> personModelCollection;
         public static string result="";
 
@@ -40,7 +39,9 @@ namespace DataBindingAppTest
         {
             get { return this.personModelCollection; }
         }
+        #endregion
 
+        #region MainPage
         public MainPage()
         {
 
@@ -56,11 +57,11 @@ namespace DataBindingAppTest
             Debug.WriteLine("DataViewModel: " + PersonModelCollection);
             Debug.WriteLine("Count: " + "{0}", PersonModelCollection.Count());
 
-            #endregion
-            
+            #endregion            
         }
+        #endregion
 
-        #region Handle Controller Events
+        #region getWeatherButton_Click Event
         private void getWeatherButton_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -76,12 +77,14 @@ namespace DataBindingAppTest
            
         }
 
+        #endregion
+
+        #region resetButton_Click Event
         private void resetButton_Click(object sender, RoutedEventArgs e)
         {
             jsonResultTextBox.Text = "";
             cityMessageTextBlock.Text = "";
         }
-
         #endregion
 
         #region Async Method GetWeatherData
@@ -117,83 +120,18 @@ namespace DataBindingAppTest
 
                 return response;
             }
-
         }
 
         #endregion
 
-        #region DownloadPageAsync function
-        static async Task<string> DownloadPageAsync()
-        {
-            #region Example Json
-
-            //Uri dataUri = new Uri("http://api.openweathermap.org/data/2.5/weather?q=raunheim,de");
-
-            #endregion
-
-            #region Example Httpclient Webpage
-            // ... Target page.
-            Uri page = new Uri("http://api.openweathermap.org/data/2.5/weather?q=raunheim,de");
-
-            // ... Use HttpClient.
-            HttpClient client = new HttpClient();
-            HttpResponseMessage response = await client.GetAsync(page);
-            IHttpContent content = response.Content;
-            
-            try
-            {
-                // ... Read the string.
-                string result = await content.ReadAsStringAsync();
-
-                // ... Display the result.
-                if (result != null)
-                {
-                    Debug.WriteLine("Result: \n {0}", result);
-                }
-            }
-            catch (Exception e)
-            {
-
-                Debug.WriteLine("Exception: " + e.Message);
-            }
-
-            return result;
-            
-            #endregion
-
-            #region Example 2 HttpClient Webpage
-            //Uri uri = new Uri("http://example.com/datalist.aspx");
-            //HttpClient httpClient = new HttpClient();
-
-            //// Always catch network exceptions for async methods
-            //try
-            //{
-            //    string result = await httpClient.GetStringAsync(uri);
-            //    Debug.WriteLine(result);
-            //}
-            //catch(Exception e)
-            //{
-            //    // Details in ex.Message and ex.HResult. 
-            //    Debug.WriteLine("Debug Message: " + e.Message);
-            //}
-
-            //// Once your app is done using the HttpClient object call dispose to 
-            //// free up system resources (the underlying socket and memory used for the object)
-            //httpClient.Dispose();
-
-            #endregion
-
-        }
-
-
-        #endregion
-
+        #region cityTextBox_TextChanged Event
         private void cityTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             //Debug.WriteLine("Test changed");
         }
+        #endregion
 
-        #region Capitalize
+        #region Capitalize Method
         /// <summary>
         /// Capitalize the first letter of a given word
         /// </summary>
@@ -219,6 +157,7 @@ namespace DataBindingAppTest
         }
         #endregion
 
+        #region parseButton_Click Event
         private void parseButton_Click(object sender, RoutedEventArgs e)
         {
             string nameKey = "name";
@@ -234,7 +173,6 @@ namespace DataBindingAppTest
                 string city = jsonObject.GetNamedString(nameKey, "");
                 JsonObject main = jsonObject.GetNamedObject(mainKey, null);
                 JsonArray weather = jsonObject.GetNamedArray(weatherKey, new JsonArray());
-                //JsonObject weatherJsonObject = weather.GetObjectAt(;
 
                 string icon = weather.GetObjectAt(0).GetNamedString(iconKey, "");
 
@@ -268,6 +206,9 @@ namespace DataBindingAppTest
 
         }
 
+        #endregion
+
+        #region ChooseTheRightWeatherIcon Method
         // Choose the right weather icon for the current weather
         public void ChooseTheRightWeatherIcon(string jsonIconCode)
         {
@@ -288,9 +229,6 @@ namespace DataBindingAppTest
                 bitmapImage.UriSource = uri;
             }
             
-
-
-
             switch (jsonIconCode)
             {
                 case "01d":
@@ -339,5 +277,6 @@ namespace DataBindingAppTest
                     break;
             }
         }
+        #endregion
     }
 }
