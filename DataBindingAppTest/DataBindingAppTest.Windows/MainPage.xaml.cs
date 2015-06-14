@@ -20,6 +20,9 @@ using System.Threading.Tasks;
 using System.Text;
 using System.Globalization;
 using Windows.Data.Json;
+using Windows.UI.Xaml.Media.Imaging;
+using Windows.Storage;
+using Windows.Storage.Streams;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -54,19 +57,12 @@ namespace DataBindingAppTest
             Debug.WriteLine("Count: " + "{0}", PersonModelCollection.Count());
 
             #endregion
-
-            //Task<string> t = DownloadPageAsync();
-
-            //Task<string> t2 = GetJsonWeatherData(jsonResultTextBox, cityTextBox.Text);
-
-            Debug.WriteLine("Downloading page...");
             
         }
 
         #region Handle Controller Events
         private void getWeatherButton_Click(object sender, RoutedEventArgs e)
         {
-            //TODO: mettre ceci dans un try catch event et si le task reussi, afficher un message à l'utilisateur
             try
             {
                 Task<string> t = GetJsonWeatherData(jsonResultTextBox, cityTextBox.Text);
@@ -117,24 +113,7 @@ namespace DataBindingAppTest
 
                 string response = await client.GetStringAsync(uri);
 
-                // Parsing weather data from Json
-                try
-                {                   
-                    JsonObject jsonObject = JsonObject.Parse(response);
-                    //Debug.WriteLine("JsonObject: -----------\n {0}", jsonObject);
-
-                    //string City = jsonObject.GetNamedString("name");
-                    //Debug.WriteLine("City from json:.................... \n {0}", City);
-                }
-                catch (Exception ex)
-                {
-
-                    throw ex;
-                }
-
-
                 c.Text = response.ToString();
-                //Debug.WriteLine("tostring: -----------\n {0}", response.ToString());
 
                 return response;
             }
@@ -242,19 +221,22 @@ namespace DataBindingAppTest
 
         private void parseButton_Click(object sender, RoutedEventArgs e)
         {
-            //cityTextBlock.Text = "Current weather in " + Capitalize(cityTextBox.Text);
             string nameKey = "name";
             string mainKey = "main";
             string tempKey = "temp";
+            string weatherKey = "weather";
+            string iconKey = "icon";
 
             string jsonData = jsonResultTextBox.Text;
             try
             {
-                JsonObject jo = JsonObject.Parse(jsonData);
-                string city = jo.GetNamedString(nameKey, "");
-                JsonObject main = jo.GetNamedObject(mainKey, null);
+                JsonObject jsonObject = JsonObject.Parse(jsonData);
+                string city = jsonObject.GetNamedString(nameKey, "");
+                JsonObject main = jsonObject.GetNamedObject(mainKey, null);
+                JsonArray weather = jsonObject.GetNamedArray(weatherKey, new JsonArray());
+                //JsonObject weatherJsonObject = weather.GetObjectAt(;
 
-                //TODO Ajouter la fonction des icones
+                string icon = weather.GetObjectAt(0).GetNamedString(iconKey, "");
 
                 if (main!=null)
                 {
@@ -266,18 +248,96 @@ namespace DataBindingAppTest
                     currentTemperatureTextBlock.Text = Convert.ToInt32(currentTempCelcius).ToString();
                     unitTextBlock.Text = "°C";
 
+                    // place the right weather icon
+                    ChooseTheRightWeatherIcon(icon);
+
                     Debug.WriteLine("Current weather: {0}K", currentTemperatur);
                     Debug.WriteLine("Current weather in celcius: {0}°C", currentTemperatur-272.15);
                 }
                 
-                //Debug.WriteLine("")
             }
+            catch(FormatException formatException)
+            {
+                Debug.WriteLine("EXCEPTION:\n {0}", formatException.Message);
+            }
+
             catch (Exception ex) 
             {
-
                 throw ex;
             }
 
+        }
+
+        // Choose the right weather icon for the current weather
+        public void ChooseTheRightWeatherIcon(string jsonIconCode)
+        {
+            StringBuilder stringBuilder = new StringBuilder("/Assets/Weather Icons/");
+            stringBuilder.Append(jsonIconCode);
+            stringBuilder.Append(".png");
+            string imageSource = stringBuilder.ToString();
+
+            Debug.WriteLine("Image source: " + imageSource);
+            //
+            Image imageObject = new Image();
+            currentWeatherStackPanel.Children.Add(imageObject);
+            BitmapImage bitmapImage = null;
+            if (imageObject != null)
+            {
+                bitmapImage = new BitmapImage();
+                Uri uri = new Uri(BaseUri, imageSource);
+                bitmapImage.UriSource = uri;
+            }
+            
+
+
+
+            switch (jsonIconCode)
+            {
+                case "01d":
+                case "01n":
+                    imageObject.Source = bitmapImage;
+                    break;
+
+                case "02d":
+                case "02n":
+                    imageObject.Source = bitmapImage;
+                    break;
+
+                case "03d":
+                case "03n":
+                    imageObject.Source = bitmapImage;
+                    break;
+
+                case "04d":
+                case "04n":
+                    imageObject.Source = bitmapImage;
+                    break;
+
+                case "09d":
+                case "09n":
+                    imageObject.Source = bitmapImage;
+                    break;
+
+                case "10d":
+                case "10n":
+                    imageObject.Source = bitmapImage;
+                    break;
+
+                case "11d":
+                case "11n":
+                    imageObject.Source = bitmapImage;
+                    break;
+
+                case "13d":
+                case "13n":
+                    imageObject.Source = bitmapImage;
+                    break;
+
+                default:
+                    bitmapImage.UriSource = new Uri("ms-appx:///Assets/Weather Icons/none.png");
+                    imageObject.Source = bitmapImage;
+                    break;
+            }
         }
     }
 }

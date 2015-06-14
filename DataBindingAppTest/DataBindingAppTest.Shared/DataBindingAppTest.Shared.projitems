@@ -19,8 +19,16 @@
     <Compile Include="$(MSBuildThisFileDirectory)PersonModel.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="$(MSBuildThisFileDirectory)Assets\Cloud-Sun.png" />
-    <Content Include="$(MSBuildThisFileDirectory)Assets\Sun.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Weather Icons\01d.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Weather Icons\01n.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Weather Icons\02d.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Weather Icons\03d.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Weather Icons\04d.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Weather Icons\09d.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Weather Icons\10d.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Weather Icons\11d.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Weather Icons\13d.png" />
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Weather Icons\none.png" />
     <Content Include="$(MSBuildThisFileDirectory)WeatherSampleData.json" />
   </ItemGroup>
 </Project>
